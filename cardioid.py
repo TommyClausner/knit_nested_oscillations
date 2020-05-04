@@ -180,7 +180,7 @@ def main():
                         help='number of precomputed strings (default=None)')
 
     parser.add_argument('-sa', '--save_as',
-                        default='./nested_oscillations.csv', type=str,
+                        default='./nested_oscillations', type=str,
                         help='save path')
 
     parser.add_argument('-ho', '--hooks', default=499, type=int,
@@ -198,11 +198,11 @@ def main():
                                         min_strings=args.strings,
                                         use_prime=not args.nprime)
 
-    save_string_order(string_order, filename=args.save_as)
+    save_string_order(string_order, filename=args.save_as + '.csv')
     circle = make_circle(500, num_hooks=hooks)
     rectangle = make_rectangle([400, 300], num_hooks=hooks)
 
-    for shape in (circle, rectangle):
+    for shape, name in zip((circle, rectangle), ('circle', 'rectangle')):
         xlist = []
         ylist = []
         plt.figure()
@@ -215,6 +215,7 @@ def main():
         plt.axis('equal')
         plt.axis('off')
         plt.show()
+        plt.savefig(args.save_as + '_' + name + '.png', dpi=1200)
 
 
 if __name__ == "__main__":
