@@ -1,5 +1,5 @@
 # Knit Nested Oscillations
-Computes a "knitable" representations of nested oscillations, such that a number of hooks can be connected to form the shape (cardioid).
+Computes a "knit-able" representations of nested oscillations, such that a number of hooks can be connected to form the shape (cardioid). Hence the entire composition can be realized by one continuous string.
 
 ## Usage
 
@@ -23,3 +23,12 @@ optional arguments:
                         order of nested oscillations (default=(2, 3))
 
 ```
+Examples using the default settings with a minimum of 4000 strings.
+
+Example circle:
+
+![Image of knitted Tommy](https://github.com/TommyClausner/knit_nested_oscillations/blob/master/example_circle.png)
+
+Example rectangle:
+
+![Image of knitted Tommy](https://github.com/TommyClausner/knit_nested_oscillations/blob/master/example_rectangle.png)
