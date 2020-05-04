@@ -1,5 +1,5 @@
 # Knit Nested Oscillations
-Computes a "knitable" representations of nested oscillations, such that a number of hooks can be connected to form the shape (cardioid).
+Computes a "knit-able" representations of nested oscillations, such that a number of hooks can be connected to form the shape (cardioid). Hence the entire composition can be realized by one continuous string.
 
 ## Usage
 
