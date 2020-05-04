@@ -27,7 +27,7 @@ def make_circle(radius, num_hooks=201):
                     radius / 2).astype(int).T
 
 
-def make_rectangle(rect_shape=(1000, 1000), num_hooks=250):
+def make_rectangle(rect_shape=(1000, 1000), num_hooks=250, offset=0):
     """
     Make rectangle coordinates.
 
@@ -35,6 +35,8 @@ def make_rectangle(rect_shape=(1000, 1000), num_hooks=250):
         (width, height) of rectangle.
     :param int num_hooks:
         How many points are used to create the rectangle.
+    :param int offset:
+        Offset for point numbering (to shift motive around the rectangle)
     :return: np.array of rectangle coordinates (x, y)
     """
     delta = (rect_shape[0] * 2 + rect_shape[1] * 2) / num_hooks
@@ -46,7 +48,7 @@ def make_rectangle(rect_shape=(1000, 1000), num_hooks=250):
     rectangle += [[rect_shape[0], y] for y in one_edge_y]
     rectangle += [[x, rect_shape[1]] for x in one_edge_x[::-1]]
     rectangle += [[0, y] for y in one_edge_y[::-1]]
-
+    rectangle = rectangle[offset:] + rectangle[:offset]
     return np.asarray(rectangle)
 
 
