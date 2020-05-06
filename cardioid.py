@@ -193,8 +193,7 @@ def main():
                         help='order of nested oscillations (default=(2, 3))')
 
     args = parser.parse_args()
-    hooks = 499
-    string_order, hooks = make_cardioid(hooks, order=args.order,
+    string_order, hooks = make_cardioid(args.hooks, order=args.order,
                                         min_strings=args.strings,
                                         use_prime=not args.nprime)
 
@@ -205,17 +204,17 @@ def main():
     for shape, name in zip((circle, rectangle), ('circle', 'rectangle')):
         xlist = []
         ylist = []
-        plt.figure()
+        plt.figure(dpi=1200)
         for ind, string_pair in enumerate(string_order):
             xlist.append(shape[string_pair[0], 0])
             ylist.append(shape[string_pair[0], 1])
             xlist.append(shape[string_pair[1], 0])
             ylist.append(shape[string_pair[1], 1])
-        plt.plot(xlist, ylist, 'black', LineWidth=0.05)
+        plt.plot(xlist, ylist, 'black', LineWidth=0.01)
         plt.axis('equal')
         plt.axis('off')
         plt.show()
-        plt.savefig(args.save_as + '_' + name + '.png', dpi=1200)
+        plt.savefig(args.save_as + '_' + name + '.png')
 
 
 if __name__ == "__main__":
