@@ -192,30 +192,67 @@ def main():
     parser.add_argument('-o', '--order', default=(2, 3), type=tuple,
                         help='order of nested oscillations (default=(2, 3))')
 
+    parser.add_argument(
+        '-sr', '--shape_rectangle',
+        default=(400, 400), type=tuple,
+        help='shape of rectangle a x b in mm (default=(400, 400))')
+
+    parser.add_argument('-rc', '--radius_circle', default=400, type=int,
+                        help='radius of circle in mm (default=400)')
+
     args = parser.parse_args()
     string_order, hooks = make_cardioid(args.hooks, order=args.order,
                                         min_strings=args.strings,
                                         use_prime=not args.nprime)
 
     save_string_order(string_order, filename=args.save_as + '.csv')
-    circle = make_circle(500, num_hooks=hooks)
-    rectangle = make_rectangle([400, 300], num_hooks=hooks)
+    circle = make_circle(args.radius_circle, num_hooks=hooks)
+    rectangle = make_rectangle(args.shape_rectangle, num_hooks=hooks)
 
     for shape, name in zip((circle, rectangle), ('circle', 'rectangle')):
         xlist = []
         ylist = []
         plt.figure(dpi=1200)
+        length_string = 0
         for ind, string_pair in enumerate(string_order):
             xlist.append(shape[string_pair[0], 0])
             ylist.append(shape[string_pair[0], 1])
             xlist.append(shape[string_pair[1], 0])
             ylist.append(shape[string_pair[1], 1])
+            length_string += np.linalg.norm(
+                shape[string_pair[0], :] - shape[string_pair[1], :]) / 1000
         plt.plot(xlist, ylist, 'black', LineWidth=0.01)
         plt.axis('equal')
         plt.axis('off')
         plt.show()
         plt.savefig(args.save_as + '_' + name + '.png')
 
+        print('length string {} is {} m'.format(name, length_string))
+
 
 if __name__ == "__main__":
     main()
+
+
+def z_angle(width, wood_thickness, height, side_offset):
+    """
+    Computes the angle for a 'Z' between two parallel bars.
+
+    :param float|int width:
+        Width of the parallel bars.
+    :param float|int wood_thickness:
+        Thickness of the 'Z' - bar in parallel direction to the parallel bars.
+    :param float|int height:
+        Height from 'top-to-top' of the parallel bars.
+    :param float|int side_offset:
+        Offset from the sides of each parallel bar to the 'Z' - bar.
+    :return: The sine of the angle in which the 'Z' - bar needs to be placed.
+    """
+    w = width
+    t = wood_thickness
+    h = height
+    o = side_offset
+    return (t * (w - 2 * o) + ((h ** 2 * (
+            (w - 2 * o) ** 2 + h ** 2 - t ** 2) + 4 * t ** 2 * (
+                                        o - o ** 2)) ** 0.5)) / (
+                   h ** 2 + (w - 2 * o) ** 2)
