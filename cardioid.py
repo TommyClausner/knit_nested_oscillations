@@ -194,8 +194,8 @@ def main():
 
     parser.add_argument(
         '-sr', '--shape_rectangle',
-        default=(400, 400), type=tuple,
-        help='shape of rectangle a x b in mm (default=(400, 400))')
+        default='400,400', type=str,
+        help='shape of rectangle a x b in mm (default=\'400, 400\')')
 
     parser.add_argument('-rc', '--radius_circle', default=400, type=int,
                         help='radius of circle in mm (default=400)')
@@ -207,7 +207,8 @@ def main():
 
     save_string_order(string_order, filename=args.save_as + '.csv')
     circle = make_circle(args.radius_circle, num_hooks=hooks)
-    rectangle = make_rectangle(args.shape_rectangle, num_hooks=hooks)
+    rectangle = make_rectangle(
+        tuple(map(int, args.shape_rectangle.split(','))), num_hooks=hooks)
 
     for shape, name in zip((circle, rectangle), ('circle', 'rectangle')):
         xlist = []
