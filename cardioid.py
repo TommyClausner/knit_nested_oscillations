@@ -2,6 +2,7 @@ import argparse
 
 import matplotlib.pylab as plt
 import numpy as np
+from matplotlib.collections import LineCollection
 
 
 def save_string_order(array, filename):
@@ -154,7 +155,6 @@ def make_cardioid(num_hooks, order=(2, 3), min_strings=None, use_prime=True):
                 # go to next point if pair already exist
                 shift += 1
                 regular_connection = False
-
             # append valid pair and list starting points only for
             # non-bypassing connections.
             if regular_connection:
@@ -169,7 +169,7 @@ def make_cardioid(num_hooks, order=(2, 3), min_strings=None, use_prime=True):
         if min_strings is not None:
             # copy as many `False` to the check vector as strings are left
             # (we increment by two, since we only use the first n - 2 points)
-            check += [False] * (min_strings - len(cardioid) + 2)
+            check += [False] * (min_strings - len(cardioid))
     return cardioid[:-2], num_hooks
 
 
@@ -189,7 +189,7 @@ def main():
     parser.add_argument('-np', '--nprime', action="store_true",
                         help='do not find nearest prime')
 
-    parser.add_argument('-o', '--order', default=(2, 3), type=tuple,
+    parser.add_argument('-o', '--order', default='2, 3', type=str,
                         help='order of nested oscillations (default=(2, 3))')
 
     parser.add_argument(
@@ -201,11 +201,13 @@ def main():
                         help='radius of circle in mm (default=400)')
 
     args = parser.parse_args()
-    string_order, hooks = make_cardioid(args.hooks, order=args.order,
+    string_order, hooks = make_cardioid(args.hooks,
+                                        order=tuple(map(
+                                            int, args.order.split(','))),
                                         min_strings=args.strings,
                                         use_prime=not args.nprime)
 
-    save_string_order(string_order, filename=args.save_as + '.csv')
+    save_string_order(string_order[::-1], filename=args.save_as + '.csv')
     circle = make_circle(args.radius_circle, num_hooks=hooks)
     rectangle = make_rectangle(
         tuple(map(int, args.shape_rectangle.split(','))), num_hooks=hooks)
@@ -213,18 +215,30 @@ def main():
     for shape, name in zip((circle, rectangle), ('circle', 'rectangle')):
         xlist = []
         ylist = []
-        plt.figure(dpi=1200)
+
+        fig, ax = plt.subplots()
+        fig.set_dpi(600)
         length_string = 0
-        for ind, string_pair in enumerate(string_order):
+
+        for ind, string_pair in enumerate(string_order[::-1]):
             xlist.append(shape[string_pair[0], 0])
             ylist.append(shape[string_pair[0], 1])
             xlist.append(shape[string_pair[1], 0])
             ylist.append(shape[string_pair[1], 1])
             length_string += np.linalg.norm(
                 shape[string_pair[0], :] - shape[string_pair[1], :]) / 1000
-        plt.plot(xlist, ylist, 'black', LineWidth=0.01)
-        plt.axis('equal')
-        plt.axis('off')
+
+        coll = LineCollection(
+            [np.column_stack([[x, x1], [y, y1]]) for x, x1, y, y1 in
+             zip(xlist[:-1], xlist[1:], ylist[:-1], ylist[1:])],
+            LineWidth=0.05, cmap=plt.cm.jet)
+
+        coll.set_array(np.asarray(range(len(string_order))))
+        ax.add_collection(coll)
+        ax.set_xlim(min(xlist), max(xlist))
+        ax.set_ylim(min(ylist), max(ylist))
+        ax.set_aspect('equal')
+        ax.set_axis_off()
         plt.show()
         plt.savefig(args.save_as + '_' + name + '.png')
 
