@@ -32,3 +32,17 @@ Example circle:
 Example rectangle:
 
 ![Image of knitted Tommy](https://github.com/TommyClausner/knit_nested_oscillations/blob/master/example_rectangle.png)
+
+Type:
+`python hookReader.py -h` to see the following help for the reader script
+
+## Usage of the hook reader
+```
+usage: hookReader.py [-h] [-f FILE] [-t TMP] [-r]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  hook order file
+  -t TMP, --tmp TMP     temporary file dir
+  -r, --restart         whether to restart
+```
