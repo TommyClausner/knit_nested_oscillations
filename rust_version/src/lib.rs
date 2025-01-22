@@ -42,6 +42,14 @@
 //! corresponds to a point in the pattern, representing its index in the sequence of points around
 //! the circle.
 //!
+//! The output CSV contains the string connections in the following format:
+//! ```csv
+//! index, from, to
+//! 0, 1, 42
+//! 1, 42, 7
+//! ...
+//! ```
+//!
 //! ## Display Results
 //! The easiest would be to display results using **Python**:
 //!
