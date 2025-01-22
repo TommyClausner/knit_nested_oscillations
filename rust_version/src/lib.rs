@@ -24,7 +24,7 @@
 //!
 //! ## Example Usage
 //! ```rust
-//! use string_oscillations::{make_cardioid, Settings};
+//! use knit_nested_oscillations::{make_cardioid, Settings};
 //!
 //! let settings = Settings {
 //!     n_hooks: 500, // Number of hooks on the circle

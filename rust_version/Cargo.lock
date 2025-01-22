@@ -30,6 +30,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d75a2a4b1b190afb6f5425f10f6a8f959d2ea0b9c2b1d79553551850539e4674"
 
 [[package]]
+name = "knit_nested_oscillations"
+version = "0.1.0"
+dependencies = [
+ "csv",
+ "serde",
+]
+
+[[package]]
 name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -77,14 +85,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "string_oscillations"
-version = "0.1.0"
-dependencies = [
- "csv",
- "serde",
 ]
 
 [[package]]

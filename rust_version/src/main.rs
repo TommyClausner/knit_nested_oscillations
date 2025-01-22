@@ -1,5 +1,5 @@
 use std::{env, process};
-use string_oscillations::{make_cardioid, Settings};
+use knit_nested_oscillations::{make_cardioid, Settings};
 
 fn main() {
     let settings = Settings::new(env::args()).unwrap_or_else(|err| {

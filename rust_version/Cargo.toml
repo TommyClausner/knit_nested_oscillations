@@ -1,5 +1,5 @@
 [package]
-name = "string_oscillations"
+name = "knit_nested_oscillations"
 version = "0.1.0"
 edition = "2021"
 
