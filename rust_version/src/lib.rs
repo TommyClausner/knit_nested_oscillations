@@ -67,6 +67,7 @@
 //! plt.axis('equal')
 //! plt.axis('off')
 //! plt.tight_layout()
+//! plt.gca().invert_yaxis()
 //! plt.show()
 //! ```
 
