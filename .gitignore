@@ -131,3 +131,7 @@ dmypy.json
 .idea/
 *.png
 *.csv
+*.pdf
+*.eps
+*.mp3
+/rust_version/target/
