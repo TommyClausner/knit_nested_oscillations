@@ -184,7 +184,6 @@ fn cardioid_strings(n: i32, spacings: &Vec<i32>, phases: &Vec<f64>) -> Vec<(i32,
         .collect();
 
     (1..=n)
-        .into_iter()
         .flat_map(|n_i| {
             spacings.clone().into_iter().enumerate().map({
                 let phases = phases.clone();
